@@ -39,7 +39,7 @@ const checkSensorData = (sensorData) => {
 		filter(sensorData, (o) => (o.value || 0) > config.threshold),
 		(o) => (-1) * o.value
 	)
-	if(sortedData.length > 0){
+	if(sortedData.length > 1){
 		let sensorList
 		if(sortedData.length > 3){
 			sensorList = sortedData.slice(0, 3).map((o) => o.sensor).join(', ') + `, +${sortedData.length-3} more`
