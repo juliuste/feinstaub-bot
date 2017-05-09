@@ -1,0 +1,10 @@
+{
+	"twitter": {
+		"key": "X",
+		"key_secret": "X",
+		"token": "X",
+		"token_secret": "X"
+	},
+	"threshold": 50,
+	"interval": 60
+}
