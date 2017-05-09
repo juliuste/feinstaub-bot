@@ -1,0 +1,14 @@
+#!/bin/sh
+
+rsync -rav --delete \
+	--exclude '.*' \
+	--exclude node_modules \
+	. 'berlinFeinstaub-bot:~/berlinFeinstaub-bot/'
+
+ssh berlinFeinstaub-bot "\
+cd ~/berlinFeinstaub-bot
+npm i
+npm update
+forever stop berlinFeinstaub-bot
+export NODE_ENV=production
+forever start -a --uid berlinFeinstaub-bot index.js"
