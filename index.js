@@ -26,7 +26,7 @@ const fetchSensorData = (sensorIDs) => {
 			.then((res) => res.json())
 			.then((res) => ({
 				sensor: sensorID,
-				value: res[res.length-1].sensordatavalues[0].value
+				value: filter(res[res.length-1].sensordatavalues, (o) => o.value_type==='P1')[0].value
 			}))
 			.catch((err) => ({sensor: sensorID, value: null}))
 		)
