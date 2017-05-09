@@ -22,7 +22,7 @@ const fetchSensorData = (sensorIDs) => {
 	const requests = []
 	for(let sensorID of sensorIDs){
 		requests.push(
-			fetch(`http://api.luftdaten.info/static/v1/sensor/${sensorID}/`)
+			fetch(`https://api.luftdaten.info/static/v1/sensor/${sensorID}/`)
 			.then((res) => res.json())
 			.then((res) => ({
 				sensor: sensorID,
