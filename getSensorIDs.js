@@ -8,7 +8,6 @@ const uniq = require('lodash.uniq')
 const inside = require('@turf/inside')
 const turf = require('@turf/helpers')
 const fs = require('fs-extra')
-const flatten = require('geojson-flatten')
 
 const generateFileName = () => (config.regions.join('-') || 'empty') + '.json'
 
