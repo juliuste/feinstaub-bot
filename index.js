@@ -51,7 +51,9 @@ const checkSensorData = (sensorData) => {
 			else{
 				sensorList = sortedData.map((o) => o.sensor).join(', ')
 			}
-			const message = `Caution! High fine dust pollution in Berlin at sensors ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ at sensor ${sortedData[sortedData.length-1].sensor}.`
+			let plural = ''
+			if(sortedData.length > 1) plural = 's'
+			const message = `Caution! High fine dust pollution in ${config.regionName} at sensor${plural} ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ at sensor ${sortedData[sortedData.length-1].sensor}.`
 			sendTweet(message)
 		}
 	}

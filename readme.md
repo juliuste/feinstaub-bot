@@ -24,6 +24,7 @@ If you want to adapt the bot to watch your municipalities sensors instead, you c
 
 ```js
 {
+	"regionName": "Berlin", // name of your region/city as displayed in the tweets
 	"twitter": { // your Twitter API credentials **
 		"key": "X",
 		"key_secret": "X",
