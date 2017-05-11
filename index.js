@@ -47,7 +47,7 @@ const checkSensorData = (sensorData) => {
 		else{
 			sensorList = sortedData.map((o) => o.sensor).join(', ')
 		}
-		const message = `Caution! High fine dust pollution in Berlin at sensors ${sensorList}! Peak PM10 ${sortedData[0].value} µg/m³ at sensor ${sortedData[0].sensor}.`
+		const message = `Caution! High fine dust pollution in Berlin at sensors ${sensorList}! PM10 ${sortedData[sortedData.length-1].value} µg/m³ at sensor ${sortedData[sortedData.length-1].sensor}.`
 		sendTweet(message)
 	}
 }
