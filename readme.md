@@ -25,7 +25,8 @@ If you want to adapt the bot to watch your municipalities sensors instead, you c
 	"regions": [ // list of german "Gemeindeschlüssel" keys, can be empty *
 		"110000000000"
 	],
-	"sensors": [244, 277] // list of additional sensor IDs, can be empty
+	"sensors": [244, 277], // list of additional sensor IDs, can be empty
+	"sensorLimit": 2 // number of sensors that have to surpass the threshold in order to trigger the bot (helps avoiding false alarm caused by one malfunctioning sensor)
 }
 ```
 

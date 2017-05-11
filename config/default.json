@@ -10,5 +10,6 @@
 	"regions": [
 		"110000000000"
 	],
-	"sensors": []
+	"sensors": [],
+	"sensorLimit": 2
 }
