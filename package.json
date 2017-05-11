@@ -29,6 +29,7 @@
     "lodash.filter": "^4.6.0",
     "lodash.includes": "^4.3.0",
     "lodash.sortby": "^4.7.0",
+    "lodash.uniq": "^4.5.0",
     "node-fetch": "^1.6.3",
     "twit": "^2.2.5"
   },

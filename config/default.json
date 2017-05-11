@@ -9,5 +9,6 @@
 	"interval": 60,
 	"regions": [
 		"110000000000"
-	]
+	],
+	"sensors": []
 }

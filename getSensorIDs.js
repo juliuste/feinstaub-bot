@@ -4,6 +4,7 @@ const config = require('config')
 const fetch = require('node-fetch')
 const filter = require('lodash.filter')
 const includes = require('lodash.includes')
+const uniq = require('lodash.uniq')
 const inside = require('@turf/inside')
 const turf = require('@turf/helpers')
 const fs = require('fs-extra')
@@ -45,10 +46,6 @@ const getSensorDump = () =>
 	.then((res) => res.json())
 
 const getSensorIDs = () => {
-	if(!Array.isArray(config.regions) || config.regions.length === 0){
-		return Promise.reject(new Error('pass an array of one or more regions'))
-	}
-
 	return Promise.all([
 		loadAreaList(),
 		getSensorDump()
@@ -60,6 +57,8 @@ const getSensorIDs = () => {
 		))
 		.map((o) => o.sensor.id)
 	)
+	.then((e) => uniq(e.concat(config.sensors)))
+	.catch((e) => uniq(config.sensors))
 }
 
 module.exports = getSensorIDs

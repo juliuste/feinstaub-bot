@@ -22,9 +22,10 @@ If you want to adapt the bot to watch your municipalities sensors instead, you c
 	},
 	"threshold": 50, // PM10 limit in µg/m³
 	"interval": 60, // interval for the bot to run in minutes
-	"regions": [ // list of german "Gemeindeschlüssel" keys *
+	"regions": [ // list of german "Gemeindeschlüssel" keys, can be empty *
 		"110000000000"
-	]
+	],
+	"sensors": [244, 277] // list of additional sensor IDs, can be empty
 }
 ```
 
