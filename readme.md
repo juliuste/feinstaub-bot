@@ -28,7 +28,7 @@ If you want to adapt the bot to watch your municipalities sensors instead, you c
 }
 ```
 
-\* If you only know your municipalities 7-digit key, just add '0000' for the 11-digit key. Example (Berlin): 11000000 -> 110000000000. You can give multiple municipality keys.
+\* If you only know your [municipalities 7-digit key](http://www.statistik-portal.de/Statistik-Portal/gemeindeverz.asp), just add '0000' for the 11-digit key. Example (Berlin): 11000000 -> 110000000000. You can give multiple municipality keys.
 
 ** Even though you can add your Twitter API credentials in `default.json`, it's strongly recommended to store them in a seperate file called `production.json` which should look like this:
 
