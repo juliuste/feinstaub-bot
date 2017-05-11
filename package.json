@@ -20,15 +20,19 @@
     "getSensorIDs.js"
   ],
   "dependencies": {
+    "@turf/helpers": "^4.2.0",
+    "@turf/inside": "^4.2.0",
     "config": "^1.26.1",
+    "fs-extra": "^3.0.1",
+    "german-administrative-areas": "^0.1.0",
     "german-states-bbox": "^0.2.0",
     "lodash.filter": "^4.6.0",
+    "lodash.includes": "^4.3.0",
     "lodash.sortby": "^4.7.0",
     "node-fetch": "^1.6.3",
     "twit": "^2.2.5"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "scripts": {
     "start": "export NODE_ENV=production && node index.js"
   },

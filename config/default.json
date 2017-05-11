@@ -6,5 +6,8 @@
 		"token_secret": "X"
 	},
 	"threshold": 50,
-	"interval": 60
+	"interval": 60,
+	"regions": [
+		"110000000000"
+	]
 }
