@@ -26,29 +26,34 @@ const fetchSensorData = (sensorIDs) => {
 			.then((res) => res.json())
 			.then((res) => ({
 				sensor: sensorID,
-				value: filter(res[res.length-1].sensordatavalues, (o) => o.value_type==='P1')[0].value
+				values: {
+					'PM10': filter(res[res.length-1].sensordatavalues, (o) => o.value_type==='P1')[0].value,
+					'PM2.5': filter(res[res.length-1].sensordatavalues, (o) => o.value_type==='P2')[0].value
+				}
 			}))
-			.catch((err) => ({sensor: sensorID, value: null}))
+			.catch((err) => ({sensor: sensorID, values: {'PM10': null, 'PM2.5': null}}))
 		)
 	}
 	return Promise.all(requests)
 }
 
 const checkSensorData = (sensorData) => {
-	const sortedData = sortBy(
-		filter(sensorData, (o) => (o.value || 0) > config.threshold),
-		(o) => (-1) * o.value
-	)
-	if(sortedData.length >= (config.sensorLimit || 1)){
-		let sensorList
-		if(sortedData.length > 3){
-			sensorList = sortedData.slice(0, 3).map((o) => o.sensor).join(', ') + `, +${sortedData.length-3} more`
+	for(let type of ['PM10', 'PM2.5']){
+		const sortedData = sortBy(
+			filter(sensorData, (o) => (o.values[type] || 0) > config.thresholds[type]),
+			(o) => (-1) * o.values[type]
+		)
+		if(sortedData.length >= (config.sensorLimit || 1)){
+			let sensorList
+			if(sortedData.length > 3){
+				sensorList = sortedData.slice(0, 3).map((o) => o.sensor).join(', ') + `, +${sortedData.length-3} more`
+			}
+			else{
+				sensorList = sortedData.map((o) => o.sensor).join(', ')
+			}
+			const message = `Caution! High fine dust pollution in Berlin at sensors ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ at sensor ${sortedData[sortedData.length-1].sensor}.`
+			sendTweet(message)
 		}
-		else{
-			sensorList = sortedData.map((o) => o.sensor).join(', ')
-		}
-		const message = `Caution! High fine dust pollution in Berlin at sensors ${sensorList}! PM10 ${sortedData[sortedData.length-1].value} µg/m³ at sensor ${sortedData[sortedData.length-1].sensor}.`
-		sendTweet(message)
 	}
 }
 

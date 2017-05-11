@@ -8,7 +8,9 @@
     "luftdaten.info",
     "feinstaub",
     "sensor",
-    "airrohr"
+    "airrohr",
+    "PM10",
+    "PM2.5"
   ],
   "author": "Julius Tens <mail@juliustens.de>",
   "homepage": "https://github.com/juliuste/berlinFeinstaub-bot",

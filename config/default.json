@@ -5,7 +5,10 @@
 		"token": "X",
 		"token_secret": "X"
 	},
-	"threshold": 50,
+	"thresholds": {
+		"PM10": 50,
+		"PM2.5": 25
+	},
 	"interval": 60,
 	"regions": [
 		"110000000000"
