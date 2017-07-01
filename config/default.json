@@ -15,5 +15,7 @@
 		"110000000000"
 	],
 	"sensors": [],
-	"sensorLimit": 2
+	"sensorLimit": 2,
+	"language": "en",
+	"debug": false
 }

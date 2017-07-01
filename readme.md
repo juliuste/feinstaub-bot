@@ -3,6 +3,7 @@
 [![dependency status](https://img.shields.io/david/juliuste/berlinFeinstaub-bot.svg)](https://david-dm.org/juliuste/berlinFeinstaub-bot)
 [![dev dependency status](https://img.shields.io/david/dev/juliuste/berlinFeinstaub-bot.svg)](https://david-dm.org/juliuste/berlinFeinstaub-bot#info=devDependencies)
 [![license](https://img.shields.io/github/license/juliuste/berlinFeinstaub-bot.svg?style=flat)](LICENSE)
+[![chat on gitter](https://badges.gitter.im/juliuste.svg)](https://gitter.im/juliuste)
 
 [@berlinFeinstaub](https://twitter.com/berlinFeinstaub). Twitter bot that monitors fine dust pollution in Berlin using [luftdaten.info](http://luftdaten.info) community sensors. Tweets when PM10 emissions surpass 50 µg/m³ or PM2.5 emissions surpass 25 µg/m³. See also [further information about fine dust pollution in Germany](http://www.umweltbundesamt.de/en/topics/air/particulate-matter-pm10) provided by the German federal environmental protection agency. Inspired by [@FeinstaubFR](https://twitter.com/FeinstaubFR).
 
@@ -39,8 +40,19 @@ If you want to adapt the bot to watch your municipalities sensors instead, you c
 	"regions": [ // list of german "Gemeindeschlüssel" keys, can be empty *
 		"110000000000"
 	],
-	"sensors": [244, 277], // list of additional sensor IDs, can be empty
-	"sensorLimit": 2 // number of sensors that have to surpass the threshold in order to trigger the bot (helps avoiding false alarm caused by one malfunctioning sensor)
+	"sensors": [
+		{
+			"id": 817,
+			"name": "Rheindorf"
+		},
+		{
+			"id": 3081,
+			"name": "Eisholz"
+		}
+	], // list of additional sensors, can be empty
+	"sensorLimit": 2, // number of sensors that have to surpass the threshold in order to trigger the bot (helps avoiding false alarm caused by one malfunctioning sensor)
+	"language": "en", // tweet language, currently supported: `de` and `en`
+	"debug": false // if true, the script won't send tweets but log to the console in higher frequency instead
 }
 ```
 

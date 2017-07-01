@@ -56,8 +56,8 @@ const getSensorIDs = () => {
 		))
 		.map((o) => o.sensor.id)
 	)
-	.then((e) => uniq(e.concat(config.sensors)))
-	.catch((e) => uniq(config.sensors))
+	.then((e) => uniq(e.concat(config.sensors.map((e) => e.id))))
+	.catch((e) => uniq(config.sensors.map((e) => e.id)))
 }
 
 module.exports = getSensorIDs

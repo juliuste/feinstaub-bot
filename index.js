@@ -15,7 +15,29 @@ const twitter = new twitterClient({
 	timeout_ms: 60*1000
 })
 
-const sendTweet = (message) => twitter.post('statuses/update', {status: message}, (e) => console.error(e))
+let currentIncident = {
+	"PM10": null,
+	"PM2.5": null
+}
+
+let sendTweet
+
+if(config.debug){
+	sendTweet = (message) => console.log(message)
+	config.interval = 0.2
+	for(let t in config.thresholds) config.thresholds[t] = 1
+}
+else{
+	sendTweet = (message) => twitter.post('statuses/update', {status: message}, (e) => console.error(e))
+}
+
+console.log(config.interval)
+
+const getSensorName = (id) => {
+	const x = config.sensors.find((s) => s.id === id)
+	if(x && x.name) return x.name
+	return id
+}
 
 const fetchSensorData = (sensorIDs) => {
 	// todo: queue?
@@ -46,15 +68,29 @@ const checkSensorData = (sensorData) => {
 		if(sortedData.length >= (config.sensorLimit || 1)){
 			let sensorList
 			if(sortedData.length > 3){
-				sensorList = sortedData.slice(0, 3).map((o) => o.sensor).join(', ') + `, +${sortedData.length-3} more`
+				sensorList = sortedData.slice(0, 3).map((o) => getSensorName(o.sensor)).join(', ') + `, +${sortedData.length-3}`
 			}
 			else{
-				sensorList = sortedData.map((o) => o.sensor).join(', ')
+				sensorList = sortedData.map((o) => getSensorName(o.sensor)).join(', ')
 			}
-			let plural = ''
-			if(sortedData.length > 1) plural = 's'
-			const message = `Caution! High fine dust pollution in ${config.regionName} at sensor${plural} ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ at sensor ${sortedData[sortedData.length-1].sensor}.`
-			sendTweet(message)
+			let message
+			if(config.language === 'de'){
+				let plural = 'bei Sensor'
+				if(sortedData.length > 1) plural = 'bei den Sensoren'
+				message = `Achtung! Hohe Feinstaubbelastung in ${config.regionName} ${plural} ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ an Sensor ${getSensorName(sortedData[sortedData.length-1].sensor)}.`
+			}
+			else{
+				let plural = ''
+				if(sortedData.length > 1) plural = 's'
+				message = `Caution! High fine dust pollution in ${config.regionName} at sensor${plural} ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ at sensor ${getSensorName(sortedData[sortedData.length-1].sensor)}.`
+			}
+			if(!currentIncident[type] || currentIncident[type] + (config.interval * 60 * 1000) <= +(new Date())){
+				currentIncident[type] = +new Date()
+				sendTweet(message)
+			}
+		}
+		else{
+			currentIncident[type] = null
 		}
 	}
 }
@@ -63,5 +99,6 @@ const check = () =>
 	getSensorIDs()
 	.then(fetchSensorData)
 	.then(checkSensorData)
+	.catch(console.error)
 
-setInterval(() => check(), config.interval * 60*1000)
+setInterval(() => check(), (config.interval / 12) * 60*1000)
