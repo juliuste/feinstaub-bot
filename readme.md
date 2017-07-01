@@ -36,7 +36,8 @@ If you want to adapt the bot to watch your municipalities sensors instead, you c
 		"PM10": 50, // PM10 limit in µg/m³
 		"PM2.5": 25 // PM2.5 limit in µg/m³
 	},
-	"interval": 60, // interval for the bot to run in minutes
+	"requestInterval": 5, // interval for the fine dust API checks in minutes
+	"notificationInterval": 180, // interval for the tweets (max. 1 tweet per type [PM10 / PM2.5] in 3h) in minutes
 	"regions": [ // list of german "Gemeindeschlüssel" keys, can be empty *
 		"110000000000"
 	],

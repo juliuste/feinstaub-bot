@@ -20,23 +20,28 @@ let currentIncident = {
 	"PM2.5": null
 }
 
+let lastNotification = {
+	"PM10": null,
+	"PM2.5": null
+}
+
 let sendTweet
 
 if(config.debug){
 	sendTweet = (message) => console.log(message)
-	config.interval = 0.2
+	config.requestInterval = 0.05
+	config.notificationInterval = 0.2
 	for(let t in config.thresholds) config.thresholds[t] = 1
 }
 else{
 	sendTweet = (message) => twitter.post('statuses/update', {status: message}, (e) => console.error(e))
 }
 
-console.log(config.interval)
-
 const getSensorName = (id) => {
 	const x = config.sensors.find((s) => s.id === id)
 	if(x && x.name) return x.name
-	return id
+	if(config.language === 'de') return `Sensor ${id}`
+	else return `sensor ${id}`
 }
 
 const fetchSensorData = (sensorIDs) => {
@@ -75,17 +80,14 @@ const checkSensorData = (sensorData) => {
 			}
 			let message
 			if(config.language === 'de'){
-				let plural = 'bei Sensor'
-				if(sortedData.length > 1) plural = 'bei den Sensoren'
-				message = `Achtung! Hohe Feinstaubbelastung in ${config.regionName} ${plural} ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ an Sensor ${getSensorName(sortedData[sortedData.length-1].sensor)}.`
+				message = `⚠ Erhöhte Feinstaubbelastung in ${config.regionName}: ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ (${getSensorName(sortedData[sortedData.length-1].sensor)}).`
 			}
 			else{
-				let plural = ''
-				if(sortedData.length > 1) plural = 's'
-				message = `Caution! High fine dust pollution in ${config.regionName} at sensor${plural} ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ at sensor ${getSensorName(sortedData[sortedData.length-1].sensor)}.`
+				message = `⚠ Increased fine dust pollution in ${config.regionName}: ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ (${getSensorName(sortedData[sortedData.length-1].sensor)}).`
 			}
-			if(!currentIncident[type] || currentIncident[type] + (config.interval * 60 * 1000) <= +(new Date())){
+			if(!currentIncident[type] || (currentIncident[type] + (config.notificationInterval * 60 * 1000) <= +(new Date()) && lastNotification[type] + (config.notificationInterval * 60 * 1000) <= +(new Date()))){
 				currentIncident[type] = +new Date()
+				lastNotification[type] = +new Date()
 				sendTweet(message)
 			}
 		}
@@ -101,4 +103,4 @@ const check = () =>
 	.then(checkSensorData)
 	.catch(console.error)
 
-setInterval(() => check(), (config.interval / 12) * 60*1000)
+setInterval(() => check(), config.requestInterval * 60*1000)

@@ -10,7 +10,8 @@
 		"PM10": 50,
 		"PM2.5": 25
 	},
-	"interval": 60,
+	"requestInterval": 5,
+	"notificationInterval": 180,
 	"regions": [
 		"110000000000"
 	],
