@@ -85,7 +85,10 @@ const checkSensorData = (sensorData) => {
 			else{
 				message = `⚠ Increased fine dust pollution in ${config.regionName}: ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ (${getSensorName(sortedData[sortedData.length-1].sensor)}).`
 			}
-			if(!currentIncident[type] || (currentIncident[type] + (config.notificationInterval * 60 * 1000) <= +(new Date()) && lastNotification[type] + (config.notificationInterval * 60 * 1000) <= +(new Date()))){
+			if(
+				( !currentIncident[type] || (currentIncident[type] + (config.notificationInterval * 60 * 1000) <= +(new Date())) )
+			&&	( !lastNotification[type] || lastNotification[type] + (config.notificationInterval * 60 * 1000) <= +(new Date()) )
+			){
 				currentIncident[type] = +new Date()
 				lastNotification[type] = +new Date()
 				sendTweet(message)
