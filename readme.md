@@ -1,21 +1,28 @@
-# [berlinFeinstaub-bot](https://twitter.com/berlinFeinstaub)
+# feinstaub-bot
 
-[![dependency status](https://img.shields.io/david/juliuste/berlinFeinstaub-bot.svg)](https://david-dm.org/juliuste/berlinFeinstaub-bot)
-[![dev dependency status](https://img.shields.io/david/dev/juliuste/berlinFeinstaub-bot.svg)](https://david-dm.org/juliuste/berlinFeinstaub-bot#info=devDependencies)
-[![license](https://img.shields.io/github/license/juliuste/berlinFeinstaub-bot.svg?style=flat)](LICENSE)
+[![dependency status](https://img.shields.io/david/juliuste/feinstaub-bot.svg)](https://david-dm.org/juliuste/feinstaub-bot)
+[![dev dependency status](https://img.shields.io/david/dev/juliuste/feinstaub-bot.svg)](https://david-dm.org/juliuste/feinstaub-bot#info=devDependencies)
+[![license](https://img.shields.io/github/license/juliuste/feinstaub-bot.svg?style=flat)](LICENSE)
 [![chat on gitter](https://badges.gitter.im/juliuste.svg)](https://gitter.im/juliuste)
 
-[@berlinFeinstaub](https://twitter.com/berlinFeinstaub). Twitter bot that monitors fine dust pollution in Berlin using [luftdaten.info](http://luftdaten.info) community sensors. Tweets when PM10 emissions surpass 50 µg/m³ or PM2.5 emissions surpass 25 µg/m³. See also [further information about fine dust pollution in Germany](http://www.umweltbundesamt.de/en/topics/air/particulate-matter-pm10) provided by the German federal environmental protection agency. Inspired by [@FeinstaubFR](https://twitter.com/FeinstaubFR). Tweets look like this:
+Twitter bot that monitors fine dust pollution for a given area or specific places using [luftdaten.info](http://luftdaten.info) community sensors. Tweets when PM10 emissions surpass 50 µg/m³ or PM2.5 emissions surpass 25 µg/m³. See also [further information about fine dust pollution in Germany](http://www.umweltbundesamt.de/en/topics/air/particulate-matter-pm10) provided by the German federal environmental protection agency. Inspired by [@FeinstaubFR](https://twitter.com/FeinstaubFR). Tweets look like this:
 
 > ⚠ Increased fine dust pollution in Leverkusen: Bürrig, Schlebusch, Rheindorf, +1! PM10 4.98 µg/m³ (Eisholz) http://deutschland.maps.luftdaten.info/#14/51.046/7.009
+
+## Accounts
+
+Twitter accounts that currently use this project:
+
+- [@berlinFeinstaub](https://twitter.com/berlinFeinstaub) (Berlin)
+- [@LEVmussleben](https://twitter.com/LEVmussleben) (Leverkusen)
 
 ## Installation
 
 You need to have [`git`](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [`nodejs`](https://nodejs.org/en/download/package-manager/) installed.
 
 ```bash
-git clone https://github.com/juliuste/berlinFeinstaub-bot.git
-cd berlinFeinstaub-bot
+git clone https://github.com/juliuste/feinstaub-bot.git
+cd feinstaub-bot
 npm install
 ```
 
@@ -78,4 +85,4 @@ If you want to adapt the bot to watch your municipalities sensors instead, you c
 
 ## Contributing
 
-If you found a bug, want to propose a feature or feel the urge to complain about your life, feel free to visit [the issues page](https://github.com/juliuste/berlinFeinstaub-bot/issues).
+If you found a bug, want to propose a feature or feel the urge to complain about your life, feel free to visit [the issues page](https://github.com/juliuste/feinstaub-bot/issues).

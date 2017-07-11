@@ -1,5 +1,5 @@
 {
-  "name": "berlinFeinstaub-bot",
+  "name": "feinstaub-bot",
   "description": "Twitter bot that monitors fine dust pollution in Berlin using luftdaten.info sensors.",
   "version": "0.3.0",
   "keywords": [
@@ -13,9 +13,9 @@
     "PM2.5"
   ],
   "author": "Julius Tens <mail@juliustens.de>",
-  "homepage": "https://github.com/juliuste/berlinFeinstaub-bot",
-  "repository": "juliuste/berlinFeinstaub-bot",
-  "bugs": "https://github.com/juliuste/berlinFeinstaub-bot/issues",
+  "homepage": "https://github.com/juliuste/feinstaub-bot",
+  "repository": "juliuste/feinstaub-bot",
+  "bugs": "https://github.com/juliuste/feinstaub-bot/issues",
   "main": "index.js",
   "files": [
     "index.js",
