@@ -53,15 +53,24 @@ const fetchSensorData = (sensorIDs) => {
 			.then((res) => res.json())
 			.then((res) => ({
 				sensor: sensorID,
+				location: res[res.length-1].location ? {
+					longitude: +res[res.length-1].location.longitude,
+					latitude: +res[res.length-1].location.latitude
+				} : {},
 				values: {
 					'PM10': filter(res[res.length-1].sensordatavalues, (o) => o.value_type==='P1')[0].value,
 					'PM2.5': filter(res[res.length-1].sensordatavalues, (o) => o.value_type==='P2')[0].value
 				}
 			}))
-			.catch((err) => ({sensor: sensorID, values: {'PM10': null, 'PM2.5': null}}))
+			.catch((err) => ({sensor: sensorID, location: {}, values: {'PM10': null, 'PM2.5': null}}))
 		)
 	}
 	return Promise.all(requests)
+}
+
+const generateSensorLink = (sensor) => {
+	if(!sensor.location || !sensor.location.longitude || !sensor.location.latitude) return null
+	else return `http://deutschland.maps.luftdaten.info/#13/${sensor.location.latitude}/${sensor.location.longitude}`
 }
 
 const checkSensorData = (sensorData) => {
@@ -79,11 +88,12 @@ const checkSensorData = (sensorData) => {
 				sensorList = sortedData.map((o) => getSensorName(o.sensor)).join(', ')
 			}
 			let message
+			const link = generateSensorLink(sortedData[sortedData.length-1])
 			if(config.language === 'de'){
-				message = `⚠ Erhöhte Feinstaubbelastung in ${config.regionName}: ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ (${getSensorName(sortedData[sortedData.length-1].sensor)}).`
+				message = `⚠ Erhöhte Feinstaubbelastung in ${config.regionName}: ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ (${getSensorName(sortedData[sortedData.length-1].sensor)})${link ? ' '+link : '.'}`
 			}
 			else{
-				message = `⚠ Increased fine dust pollution in ${config.regionName}: ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ (${getSensorName(sortedData[sortedData.length-1].sensor)}).`
+				message = `⚠ Increased fine dust pollution in ${config.regionName}: ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ (${getSensorName(sortedData[sortedData.length-1].sensor)})${link ? ' '+link : '.'}`
 			}
 			if(
 				( !currentIncident[type] || (currentIncident[type] + (config.notificationInterval * 60 * 1000) <= +(new Date())) )
