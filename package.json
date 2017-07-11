@@ -1,7 +1,7 @@
 {
   "name": "berlinFeinstaub-bot",
   "description": "Twitter bot that monitors fine dust pollution in Berlin using luftdaten.info sensors.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "keywords": [
     "fine dust",
     "pollution",
