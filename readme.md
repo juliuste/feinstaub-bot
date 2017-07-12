@@ -9,6 +9,8 @@ Twitter bot that monitors fine dust pollution for a given area or specific place
 
 > ⚠ Increased fine dust pollution in Leverkusen: Bürrig, Schlebusch, Rheindorf, +1! PM10 4.98 µg/m³ (Eisholz) http://deutschland.maps.luftdaten.info/#14/51.046/7.009
 
+If you'd like to setup this bot for your own city, village or region, just let me know, I'm happy to help!
+
 ## Accounts
 
 Twitter accounts that currently use this project:
