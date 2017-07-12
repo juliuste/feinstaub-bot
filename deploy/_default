@@ -3,6 +3,10 @@
 rsync -rav --delete \
 	--exclude '.*' \
 	--exclude node_modules \
+	--exclude deploy \
+	--include 'config/default.json' \
+	--include 'config/production.json' \
+	--exclude 'config/*' \
 	. 'feinstaub-bot:~/feinstaub-bot/'
 
 ssh feinstaub-bot "\
