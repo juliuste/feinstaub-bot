@@ -5,7 +5,7 @@ const fetch = require('node-fetch')
 const filter = require('lodash.filter')
 const sortBy = require('lodash.sortby')
 const twitterClient = require('twit')
-const getSensorIDs = require('./getSensorIDs')
+const sensors = require('./sensors')
 
 const twitter = new twitterClient({
 	consumer_key: config.twitter.key,
@@ -111,7 +111,7 @@ const checkSensorData = (sensorData) => {
 }
 
 const check = () =>
-	getSensorIDs()
+	sensors()
 	.then(fetchSensorData)
 	.then(checkSensorData)
 	.catch(console.error)

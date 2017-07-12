@@ -1,0 +1,14 @@
+#!/bin/sh
+
+rsync -rav --delete \
+	--exclude '.*' \
+	--exclude node_modules \
+	. 'feinstaub-bot:~/feinstaub-bot/'
+
+ssh feinstaub-bot "\
+cd ~/feinstaub-bot
+npm i
+npm update
+forever stop feinstaub-bot
+export NODE_ENV=production
+forever start -a --uid feinstaub-bot index.js"

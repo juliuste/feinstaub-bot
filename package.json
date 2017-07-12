@@ -19,7 +19,7 @@
   "main": "index.js",
   "files": [
     "index.js",
-    "getSensorIDs.js"
+    "sensors.js"
   ],
   "dependencies": {
     "@turf/helpers": "^4.2.0",

@@ -8,4 +8,7 @@ npm-debug.log
 config/*
 !config/default.json
 
-deploy_*
+deploy/*
+!deploy/_default
+
+empty.json
