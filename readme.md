@@ -11,7 +11,7 @@ Twitter bot that monitors fine dust pollution for a given area or specific place
 
 If you'd like to setup this bot for your own city, village or region, just let me know, I'm happy to help!
 
-## Accounts
+## Existing instances
 
 Twitter accounts that currently use this project:
 
