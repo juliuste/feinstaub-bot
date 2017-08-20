@@ -7,9 +7,9 @@ rsync -rav --delete \
 	--include 'config/default.json' \
 	--include 'config/production.json' \
 	--exclude 'config/*' \
-	. 'feinstaub-bot:~/feinstaub-bot/'
+	. 'enceladus:~/feinstaub-bot/'
 
-ssh feinstaub-bot "\
+ssh enceladus "\
 cd ~/feinstaub-bot
 npm i
 npm update
