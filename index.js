@@ -5,7 +5,11 @@ const fetch = require('node-fetch')
 const filter = require('lodash.filter')
 const sortBy = require('lodash.sortby')
 const twitterClient = require('twit')
+const prediction = require('airrohr-prediction')
 const sensors = require('./sensors')
+const lRound = require('lodash.round')
+
+const round = (x) => lRound(x, 0)
 
 const twitter = new twitterClient({
 	consumer_key: config.twitter.key,
@@ -40,8 +44,7 @@ else{
 const getSensorName = (id) => {
 	const x = config.sensors.find((s) => s.id === id)
 	if(x && x.name) return x.name
-	if(config.language === 'de') return `Sensor ${id}`
-	else return `sensor ${id}`
+	return null
 }
 
 const fetchSensorData = (sensorIDs) => {
@@ -51,15 +54,20 @@ const fetchSensorData = (sensorIDs) => {
 		requests.push(
 			fetch(`https://api.luftdaten.info/static/v1/sensor/${sensorID}/`)
 			.then((res) => res.json())
-			.then((res) => ({
+			.then((res) => Promise.all([res, prediction(sensorID)]))
+			.then(([res, value]) => ({
 				sensor: sensorID,
 				location: res[res.length-1].location ? {
 					longitude: +res[res.length-1].location.longitude,
 					latitude: +res[res.length-1].location.latitude
 				} : {},
 				values: {
-					'PM10': filter(res[res.length-1].sensordatavalues, (o) => o.value_type==='P1')[0].value,
-					'PM2.5': filter(res[res.length-1].sensordatavalues, (o) => o.value_type==='P2')[0].value
+					'PM10': round(value.PM10.lower),
+					'PM2.5': round(value['PM2.5'].lower),
+					'expected': {
+						'PM10': round(value.PM10.expected),
+						'PM2.5': round(value['PM2.5'].expected)
+					}
 				}
 			}))
 			.catch((err) => ({sensor: sensorID, location: {}, values: {'PM10': null, 'PM2.5': null}}))
@@ -80,20 +88,20 @@ const checkSensorData = (sensorData) => {
 			(o) => (-1) * o.values[type]
 		)
 		if(sortedData.length >= (config.sensorLimit || 1)){
-			let sensorList
-			if(sortedData.length > 3){
-				sensorList = sortedData.slice(0, 3).map((o) => getSensorName(o.sensor)).join(', ') + `, +${sortedData.length-3}`
-			}
-			else{
-				sensorList = sortedData.map((o) => getSensorName(o.sensor)).join(', ')
-			}
+			// todo: cap sensor name length
+			let sensorNames = sortedData.map((o) => getSensorName(o.sensor))
+			sensorNames = sensorNames.filter((o) => !!o)
+
+			let sensorName = ''
+			if(sensorNames.length > 0) sensorName = ': ' + sensorNames.join(', ')
+
 			let message
 			const link = generateSensorLink(sortedData[sortedData.length-1])
 			if(config.language === 'de'){
-				message = `⚠ Erhöhte Feinstaubbelastung in ${config.regionName}: ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ (${getSensorName(sortedData[sortedData.length-1].sensor)})${link ? ' '+link : '.'}`
+				message = `⚠ Erhöhte Feinstaubbelastung in ${config.regionName}${sensorName}! ${type} ${sortedData[sortedData.length-1].values.expected[type]}µg/m³ ${link ? link : '.'}`
 			}
 			else{
-				message = `⚠ Increased fine dust pollution in ${config.regionName}: ${sensorList}! ${type} ${sortedData[sortedData.length-1].values[type]} µg/m³ (${getSensorName(sortedData[sortedData.length-1].sensor)})${link ? ' '+link : '.'}`
+				message = `⚠ Increased fine dust pollution in ${config.regionName}${sensorName}! ${type} ${sortedData[sortedData.length-1].values.expected[type]}µg/m³ ${link ? link : '.'}`
 			}
 			if(
 				( !currentIncident[type] || (currentIncident[type] + (config.notificationInterval * 60 * 1000) <= +(new Date())) )
